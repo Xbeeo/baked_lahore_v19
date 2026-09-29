@@ -31,6 +31,7 @@
         'views/profit_classification_views.xml',
         'views/stock_quant_view.xml',
         'views/account_analytic_plan_view.xml',
+        'views/account_journal_views.xml',
         'views/stock_scrap_views.xml',
         # 'views/mrp_production_views.xml',
            ],
