@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models,api,fields
-
+from odoo.exceptions import ValidationError
 
 class StockScrap(models.Model):
     _inherit = ["stock.scrap", "analytic.mixin"]
@@ -75,6 +75,9 @@ class StockScrap(models.Model):
                         'name': scrap.product_id.name,
                         'partner_id': scrap.product_id.vendor_id.id,
                     }))
+                else:
+                    raise ValidationError('Please Ve')
+
             else:
                 if scrap.product_id.cost_of_goods_exp_adjustment and scrap.product_id.categ_id.property_stock_valuation_account_id:
                     if scrap.product_id.expiration_per == 0.0:
