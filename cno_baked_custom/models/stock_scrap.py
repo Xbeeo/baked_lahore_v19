@@ -76,7 +76,7 @@ class StockScrap(models.Model):
                         'partner_id': scrap.product_id.vendor_id.id,
                     }))
                 else:
-                    raise ValidationError('Please Ve')
+                    raise ValidationError('Please Verify Account on product and product category')
 
             else:
                 if scrap.product_id.cost_of_goods_exp_adjustment and scrap.product_id.categ_id.property_stock_valuation_account_id:
@@ -117,6 +117,9 @@ class StockScrap(models.Model):
                         'name': scrap.product_id.name,
                         'partner_id': scrap.product_id.vendor_id.id,
                     }))
+                else:
+                    raise ValidationError('Please Verify Account on product and product category')
+
 
             if lines:
                 print(res)

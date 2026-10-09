@@ -6,3 +6,4 @@ access_accounting_head_line,accounting.head.line,model_accounting_head_line,base
 access_expenses_voucher_line,expenses.voucher.line,model_expenses_voucher_line,base.group_user,1,1,1,1
 access_cogs_basis,cogs.basis,model_cogs_basis,base.group_user,1,1,1,1
 access_profit_classification,profit.classification,model_profit_classification,base.group_user,1,1,1,1
+access_inventory_adjustment_analysis,inventory.adjustment.analysis,model_inventory_adjustment_analysis,base.group_user,1,1,1,1

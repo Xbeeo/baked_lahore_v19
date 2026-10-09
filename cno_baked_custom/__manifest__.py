@@ -29,6 +29,7 @@
         'views/accounting_head_views.xml',
         'views/cogs_basis_views.xml',
         'views/profit_classification_views.xml',
+        'views/inventory_adjustment_analysis_views.xml',
         'views/stock_quant_view.xml',
         'views/account_analytic_plan_view.xml',
         'views/account_journal_views.xml',

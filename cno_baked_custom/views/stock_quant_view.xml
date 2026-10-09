@@ -15,7 +15,7 @@
             </field>
             <field name="product_id" position="after">
                 <field name="last_move_date" optional="hide"/>
-                <field name="last_move_quantity" optional="hide"/>
+<!--                <field name="last_move_quantity" optional="hide"/>-->
                 <field name="last_move_user_id" optional="hide"/>
             </field>
         </field>
