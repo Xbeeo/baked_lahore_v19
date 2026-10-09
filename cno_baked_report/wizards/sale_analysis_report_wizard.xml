@@ -17,6 +17,15 @@
                                 <field name="date_to"/>
                             </group>
                         </group>
+
+                        <group>
+                            <group>
+                                <field name="allowed_pos" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit': True,'no_open': True, 'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="report_type"/>
+                            </group>
+                        </group>
                     </sheet>
                     <footer>
                         <button string="Print" name="action_print" type="object" class="oe_highlight" data-hotkey="q"/>

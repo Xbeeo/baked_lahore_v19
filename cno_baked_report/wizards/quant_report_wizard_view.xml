@@ -7,6 +7,7 @@
                 <group>
                     <field name="date_from"/>
                     <field name="date_to"/>
+                    <field name="location_id"/>
                 </group>
                 <footer>
                     <button name="action_print_report" string="Print Excel Report" type="object" class="btn-primary"/>
@@ -17,14 +18,14 @@
     </record>
 
     <record id="action_quant_report_wizard" model="ir.actions.act_window">
-        <field name="name">Physical Inventory Adjustment Report</field>
+        <field name="name">Inventory Adjustment Report</field>
         <field name="res_model">quant.report.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
 
     <menuitem id="menu_quant_report_wizard"
-              name="Physical Inventory Adjustment Report"
+              name="Inventory Adjustment Report"
               parent="stock.menu_warehouse_report"
               action="action_quant_report_wizard"
               sequence="50"/>

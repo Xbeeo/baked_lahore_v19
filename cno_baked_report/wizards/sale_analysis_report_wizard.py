@@ -15,14 +15,38 @@ class SaleAnalysisReport(models.TransientModel):
 
     date_from = fields.Datetime(string='Date From', required= True)
     date_to = fields.Datetime(string='Date To', required= True)
+    allowed_pos = fields.Many2many(
+        comodel_name='pos.config',
+        string='Allowed POS',
+        help='Select POS configurations. Leave empty for all POS.',
+    )
 
-
-
+    report_type = fields.Selection(
+        [
+            ('product', 'Product Wise'),
+            ('order', 'Order Wise'),
+        ],
+        string='Report Type',
+        required=True,
+        default='product',
+    )
 
     def action_print(self):
+        self.ensure_one()
+
         data = {
             'form': self.read()[0],
         }
-        return self.env.ref('cno_baked_report.sale_analysis_report_xlsx_details').report_action(self, data=data)
+
+        if self.report_type == 'product':
+            report = self.env.ref(
+                'cno_baked_report.sale_analysis_report_xlsx_details'
+            )
+        else:
+            report = self.env.ref(
+                'cno_baked_report.sale_analysis_order_wise_xlsx'
+            )
+
+        return report.report_action(self, data=data)
 
 

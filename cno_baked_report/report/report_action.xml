@@ -9,6 +9,14 @@
         <field name="report_file">cno_baked_report.sale_analysis_report_id_xlsx</field>
     </record>
 
+    <record id="sale_analysis_order_wise_xlsx" model="ir.actions.report">
+        <field name="name">Sale Analysis Order Wise</field>
+        <field name="model">sale.analysis.report</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">cno_baked_report.sale_analysis_order_wise_xlsx</field>
+        <field name="report_file">cno_baked_report.sale_analysis_order_wise_xlsx</field>
+    </record>
+
     <record id="custom_paperformat" model="report.paperformat">
             <field name="name">Custom</field>
             <field name="default" eval="True" />
