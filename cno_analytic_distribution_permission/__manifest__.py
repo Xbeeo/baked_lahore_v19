@@ -15,7 +15,7 @@
 
     'website': 'https://cyngro.com',
 
-    "depends": ['base','account', 'sale_management','purchase','cno_baked_custom'],
+    "depends": ['base','account', 'sale_management','purchase'],
 
     "data": [
         'views/res_users_views.xml',
