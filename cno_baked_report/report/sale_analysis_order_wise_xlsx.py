@@ -10,6 +10,8 @@ class SaleAnalysisOrderWiseXlsx(models.AbstractModel):
     _inherit = 'report.report_xlsx.abstract'
     _description = 'Sale Analysis Order Wise XLSX Report'
 
+
+
     def generate_xlsx_report(self, workbook, data, report):
         sheet = workbook.add_worksheet('Sale Analysis Report')
 
@@ -154,6 +156,18 @@ class SaleAnalysisOrderWiseXlsx(models.AbstractModel):
         # ONE ROW PER ORDER
         # ==========================
 
+        def get_price_unit(line):
+            price_unit = line.price_unit
+
+            if line.tax_ids_after_fiscal_position:
+                for tax in line.tax_ids_after_fiscal_position:
+                    if tax.price_include_override == 'tax_included':
+                        price_unit = (
+                                             line.price_unit / (100 + tax.amount)
+                                     ) * 100
+
+            return price_unit
+
         for order in pos_orders:
 
             # --------------------------
@@ -197,7 +211,7 @@ class SaleAnalysisOrderWiseXlsx(models.AbstractModel):
 
             # Gross Sales
             gross_sales = sum(
-                line.qty * line.price_unit
+                line.qty * get_price_unit(line)
                 for line in lines
             )
 
@@ -205,7 +219,7 @@ class SaleAnalysisOrderWiseXlsx(models.AbstractModel):
             discount_amt = sum(
                 (
                     line.discount *
-                    (line.qty * line.price_unit)
+                    (line.qty * get_price_unit(line))
                 ) / 100
                 for line in lines
             )
@@ -235,7 +249,7 @@ class SaleAnalysisOrderWiseXlsx(models.AbstractModel):
             # Commission
             commission_income = sum(
                 (
-                    line.qty * line.price_unit
+                    line.qty * get_price_unit(line)
                 ) *
                 (
                     line.product_id.commission_per / 100

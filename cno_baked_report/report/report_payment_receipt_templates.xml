@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_payment_receipt_document_inherit_receiver_signature"
+              inherit_id="account.report_payment_receipt_document">
+
+        <!-- Receiver column after Reference -->
+        <xpath expr="//table[@name='invoices']/thead/tr/th[span[normalize-space()='Reference']]"
+               position="after">
+            <th t-if="o.receiver_id">
+                <span>Receiver</span>
+            </th>
+        </xpath>
+
+        <!-- Receiver value after Reference in invoice row -->
+        <xpath expr="//table[@name='invoices']/tbody//tr[td[span[@t-field='inv.ref']]]/td[span[@t-field='inv.ref']]"
+               position="after">
+            <td t-if="o.receiver_id">
+                <span t-field="o.receiver_id.name"/>
+            </td>
+        </xpath>
+
+        <!-- Keep table columns aligned for payment and balance rows -->
+        <xpath expr="//table[@name='invoices']/tbody//tr[td[span[@t-field='payment.move_id.date']]]/td[3]"
+               position="after">
+            <td t-if="o.receiver_id"/>
+        </xpath>
+
+        <xpath expr="//table[@name='invoices']/tbody//tr[td[strong[span[@t-field='inv.name']]]]/td[3]"
+               position="after">
+            <td t-if="o.receiver_id"/>
+        </xpath>
+
+        <!-- Signature at bottom right, above the footer -->
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <div style="width: 220px;
+                        margin-left: auto;
+                        margin-top: 250px;
+                        text-align: center;
+                        page-break-inside: avoid;">
+                <div style="border-top: 1px solid #000;
+                            padding-top: 8px;">
+                    Signature
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+
+</odoo>

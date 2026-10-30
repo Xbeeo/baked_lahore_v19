@@ -1,0 +1,29 @@
+<odoo>
+    <record id="scrap_report_wizard_form" model="ir.ui.view">
+        <field name="name">scrap.report.wizard.form</field>
+        <field name="model">scrap.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Scrap Report">
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button name="action_print_report" string="Print Excel" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="scrap_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Scrap Report</field>
+        <field name="res_model">scrap.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_scrap_report" name="Scrap Report"
+              parent="stock.menu_warehouse_report"
+              action="scrap_report_wizard_action" sequence="50"/>
+</odoo>

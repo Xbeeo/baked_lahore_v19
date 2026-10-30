@@ -61,6 +61,28 @@ class PurchaseLedgerReport(models.AbstractModel):
                 lines_domain, order='date asc, move_id asc, id asc'
             )
 
+            bill_refs = move_lines.mapped('move_id.ref')
+            bill_refs = [ref for ref in bill_refs if ref]
+
+            if bill_refs:
+                payments = self.env['account.payment'].search([
+                    ('state', '=', 'paid'),
+                    ('memo', 'in', bill_refs),
+                ])
+                payment_move_ids = payments.mapped('move_id').ids
+                payable_lines = self.env['account.move.line'].search([
+                    ('move_id', 'in', payment_move_ids),
+                    ('account_id.account_type', '=', 'liability_payable'),
+                ])
+
+                move_lines = move_lines | payable_lines
+
+            move_lines = move_lines.sorted(
+                key=lambda line: (line.date, line.move_id.id, line.id)
+            )
+
+
+
             balance = self._get_opening_balance(data, account.id)
             opening_balance = balance
 

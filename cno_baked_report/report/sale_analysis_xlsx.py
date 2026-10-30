@@ -116,6 +116,13 @@ class SaleAnalysisXlsx(models.AbstractModel):
             payment_methods_str = ', '.join(payment_methods)
 
             for line in order.lines:
+                price_unit = line.price_unit
+                if line.tax_ids_after_fiscal_position:
+                    for tax in line.tax_ids_after_fiscal_position:
+                        if tax.price_include_override == 'tax_included':
+                            price_unit = (line.price_unit/(100+tax.amount))*100
+
+
                 date = ((order.date_order) + timedelta(hours=5)).strftime("%d-%m-%Y")
                 time = ((order.date_order) + timedelta(hours=5)).strftime("%H:%M")
                 vendor_name = line.product_id.vendor_id.name if line.product_id.vendor_id else ''
@@ -124,8 +131,8 @@ class SaleAnalysisXlsx(models.AbstractModel):
                 customer_name = order.partner_id.name if order.partner_id else ''
                 customer_contact = order.partner_id.phone if order.partner_id else ''
                 receipt_type = 'Refund' if order.amount_total < 0 else 'Sale'
-                dic = (line.discount * (line.qty*line.price_unit))/100
-                net_sale = (line.qty*line.price_unit) - dic
+                dic = (line.discount * (line.qty*price_unit))/100
+                net_sale = (line.qty*price_unit) - dic
                 cost_goods = line.qty * line.product_id.standard_price
                 gross_pro = net_sale - cost_goods
                 taxes = line.price_subtotal_incl - line.price_subtotal
@@ -135,6 +142,10 @@ class SaleAnalysisXlsx(models.AbstractModel):
                     f"{tax.amount}%"
                     for tax in line.tax_ids_after_fiscal_position
                 )
+
+
+
+
                 sheet.write(row, 0, date, center_left)
                 sheet.write(row, 1, time, center_left)
                 sheet.write(row, 2, order.session_id.name, center_left)
@@ -147,7 +158,7 @@ class SaleAnalysisXlsx(models.AbstractModel):
                 sheet.write(row, 9, line.product_id.default_code, center_left)
                 sheet.write(row, 10, line.product_id.name, center_left)
                 sheet.write(row, 11, line.qty, center_right)
-                sheet.write(row, 12, line.qty*line.price_unit, center_right)
+                sheet.write(row, 12, line.qty*price_unit, center_right)
                 sheet.write(row, 13, line.custom_discount_reason, center_left)
                 sheet.write(row, 14, line.discount, center_right)
                 sheet.write(row, 15, dic, center_right)
@@ -159,7 +170,7 @@ class SaleAnalysisXlsx(models.AbstractModel):
                 sheet.write(row, 21, tax_per, center_right)
                 sheet.write(row, 22, taxes, center_right)
                 sheet.write(row, 23, f"{line.product_id.commission_per}%", center_right)
-                sheet.write(row, 24, (line.qty*line.price_unit)*(line.product_id.commission_per/100), center_right)
+                sheet.write(row, 24, (line.qty*price_unit)*(line.product_id.commission_per/100), center_right)
                 sheet.write(row, 25, (net_sale-cost_goods) - ((net_sale-cost_goods)*(line.product_id.commission_per/100)), center_right)
                 sheet.write(row, 26, cogs_b, center_right)
                 sheet.write(row, 27, pro_classi, center_right)

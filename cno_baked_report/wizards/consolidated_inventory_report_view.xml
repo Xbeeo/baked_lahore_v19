@@ -1,0 +1,30 @@
+<odoo>
+    <record id="view_consolidated_inventory_report_wizard_form" model="ir.ui.view">
+        <field name="name">consolidated.inventory.report.wizard.form</field>
+        <field name="model">consolidated.inventory.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="company_ids" widget="many2many_tags"  domain="[('id', 'in', allowed_company_ids)]"/>
+                </group>
+                <footer>
+                    <button name="action_print_report" string="Print Excel Report" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_consolidated_inventory_report_wizard" model="ir.actions.act_window">
+        <field name="name">Consolidated Inventory Report</field>
+        <field name="res_model">consolidated.inventory.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_consolidated_inventory_report_wizard"
+              name="Consolidated Inventory Report"
+              parent="stock.menu_warehouse_report"
+              action="action_consolidated_inventory_report_wizard"
+              sequence="55"/>
+</odoo>
