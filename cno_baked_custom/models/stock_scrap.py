@@ -7,6 +7,20 @@ class StockScrap(models.Model):
     _inherit = ["stock.scrap", "analytic.mixin"]
 
 
+    scrap_value = fields.Float(string="Scrap Value",compute="_compute_scrap_value",store=True)
+
+    @api.depends('scrap_qty', 'origin' , 'product_id')
+    def _compute_scrap_value(self):
+        for scrap in self:
+            po_obj = self.env['purchase.order'].search([('name', '=', scrap.origin)], limit=1)
+            if po_obj:
+                pol_obj = self.env['purchase.order.line'].search([('order_id', '=', po_obj.id), ('product_id', '=', scrap.product_id.id)], limit=1)
+                scrap.scrap_value = scrap.scrap_qty * pol_obj.price_unit
+            else:
+                scrap.scrap_value = 0.0
+
+
+
     @api.depends('move_ids', 'move_ids.move_line_ids.quantity', 'product_id')
     def _compute_scrap_qty(self):
         for scrap in self:

@@ -36,33 +36,33 @@ class ProductTemplateInherit(models.Model):
         store=True
     )
 
-    # @api.constrains('name')
-    # def _check_duplicate_name(self):
-    #     for rec in self:
-    #         if rec.name:
-    #             duplicate = self.search([
-    #                 ('id', '!=', rec.id),
-    #                 ('name', '=ilike', rec.name.strip()),
-    #             ], limit=1)
+    @api.constrains('name')
+    def _check_duplicate_name(self):
+        for rec in self:
+            if rec.name:
+                duplicate = self.search([
+                    ('id', '!=', rec.id),
+                    ('name', '=ilike', rec.name.strip()),
+                ], limit=1)
 
-    #             if duplicate:
-    #                 raise ValidationError(
-    #                     _("Product name '%s' already exists.") % rec.name
-    #                 )
+                if duplicate:
+                    raise ValidationError(
+                        _("Product name '%s' already exists.") % rec.name
+                    )
 
-    # @api.constrains('default_code')
-    # def _check_duplicate_default_code(self):
-    #     for rec in self:
-    #         if rec.default_code:
-    #             duplicate = self.search([
-    #                 ('id', '!=', rec.id),
-    #                 ('default_code', '=ilike', rec.default_code.strip()),
-    #             ], limit=1)
+    @api.constrains('default_code')
+    def _check_duplicate_default_code(self):
+        for rec in self:
+            if rec.default_code:
+                duplicate = self.search([
+                    ('id', '!=', rec.id),
+                    ('default_code', '=ilike', rec.default_code.strip()),
+                ], limit=1)
 
-    #             if duplicate:
-    #                 raise ValidationError(
-    #                     _("Default_code '%s' already exists.") % rec.name
-    #                 )
+                if duplicate:
+                    raise ValidationError(
+                        _("Default_code '%s' already exists.") % rec.name
+                    )
 
     @api.depends('list_price', 'standard_price')
     def _compute_margin_percent(self):

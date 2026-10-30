@@ -10,6 +10,10 @@
                        optional="show"/>
                 <field name="analytic_precision" column_invisible="1"/>
             </field>
+            <xpath expr="//field[@name='scrap_qty']" position="after">
+                <field name="scrap_value" />
+            </xpath>
+
         </field>
     </record>
     <record id="view_stock_scrap_form_inherit_analytic" model="ir.ui.view">
@@ -23,6 +27,9 @@
                        optional="show"/>
                 <field name="analytic_precision" column_invisible="1"/>
             </field>
+            <xpath expr="//field[@name='lot_id']" position="before">
+                <field name="scrap_value" />
+            </xpath>
         </field>
     </record>
 </odoo>

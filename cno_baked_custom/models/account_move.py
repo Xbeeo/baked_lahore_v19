@@ -9,6 +9,7 @@ class AccountMoveInherit(models.Model):
     vendor_settlement_entry = fields.Boolean(string='Vendor Settlement Entry')
     expenses_voucher_id = fields.Many2one(comodel_name='expenses.voucher',string='Expenses Voucher')
     def action_post(self):
+        self = self.with_context(disable_abnormal_invoice_detection=True)
         res = super().action_post()
         for move in self:
             if move.move_type != 'in_invoice':

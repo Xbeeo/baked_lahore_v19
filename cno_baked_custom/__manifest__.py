@@ -22,6 +22,7 @@
         'security/security.xml',
         'data/sequence_data.xml',
         'views/product_template_views.xml',
+        'views/account_payment_views.xml',
         'views/product_variant_views.xml',
         'views/stock_views.xml',
         'views/pos_payment_method_views.xml',

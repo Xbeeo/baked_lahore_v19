@@ -18,6 +18,7 @@ from . import profit_classification
 from . import stock_quant
 from . import account_analytic_plan
 from . import inventory_adjustment_analysis
+from . import account_payment
 # from . import mrp_bom_line
 # from . import mrp_report_mo_overview
 
